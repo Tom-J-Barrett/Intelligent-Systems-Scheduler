@@ -3,13 +3,15 @@ import java.io.*;
 import java.util.*;
 import java.util.Random;
 import java.*;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.Comparator;
 
 public class is14171198{
 	//main method: 	Creates a Userinput object and sets the integer values needed for this program.
 	//				Creates a Schedule object, envokes the createStudentsSchedule method, envokes the generateOrderings method and nvokes the print method.
 	public static void main(String[]args){
-		int generations,population,students,modulePerCourse,modules,d,n;
+		int generations,population,students,modulePerCourse,modules,d,n,crossover,mutation,reproduction;
 		
 		UserInput input= new UserInput();
 		
@@ -19,16 +21,21 @@ public class is14171198{
 		modulePerCourse=input.getModulesPerCourse();
 		modules=input.getModules();
 		d=input.getDays();
+		crossover=input.getCrossover();
+		mutation=input.getMutation();
+		reproduction=input.getReproduction();
 		
-		Schedule studentsSchedule= new Schedule(generations,population,students,modules,modulePerCourse);
+		
+		Schedule studentsSchedule= new Schedule(generations,population,students,modules,modulePerCourse,crossover,mutation,reproduction);
 		studentsSchedule.createStudentsSchedule();
 		studentsSchedule.generateOrderings();
+		studentsSchedule.selection();
 		studentsSchedule.print(studentsSchedule,students, modules, modulePerCourse);
 	}
 }
 
 class UserInput{
-	private int generations,population,students,modulePerCourse,modules,d,n;
+	private int generations,population,students,modulePerCourse,modules,d,n,crossover,mutation,reproduction;
 	private boolean generationsIsNotValid;
 	private boolean studentsIsNotValid;
 	private boolean modulesIsNotValid;
@@ -83,6 +90,14 @@ class UserInput{
 				modulePerCourseIsNotValid=false;
 		}
 		
+		System.out.println("Please enter percentage number for crossover: ");
+			crossover=Integer.parseInt(in.nextLine());
+			
+		System.out.println("Please enter percentage number for mutation: ");
+			mutation=Integer.parseInt(in.nextLine());
+			
+		reproduction=100-mutation-crossover;
+		
 		d=modules/2;
 	}
 	
@@ -110,15 +125,32 @@ class UserInput{
 		return d;
 	}
 	
+	public int getMutation(){
+		return mutation;
+	}
+	
+	public int getCrossover(){
+		return crossover;
+	}
+	
+	public int getReproduction(){
+		return reproduction;
+	}
+	
 }
 
 
 class Schedule{
 	
-	private int generations,population,students,modulePerCourse,modules,d,n;
+	private int generations,population,students,modulePerCourse,modules,d,n,selectionPopulation,mutation,crossover,reproduction;
 	private ArrayList<ArrayList<Integer>> studentsSchedule;
 	private Ordering ordering;
-	private ArrayList<Ordering> populationOrders;
+	private Ordering temp;
+	private Ordering temp2;
+	private Ordering temp3;
+	private int[][] mutationArray;
+	private List<Ordering> populationOrders;
+	private ArrayList<Ordering> result;
 	private ArrayList<Integer> modulesPerStudent;
 	ArrayList<Integer> moduleList;
 	
@@ -126,21 +158,25 @@ class Schedule{
 		
 	}
 	
-	Schedule(int generations,int population,int students,int modules,int modulePerCourse){
+	Schedule(int generations,int population,int students,int modules,int modulePerCourse,int crossover,int mutation,int reproduction){
 		this.generations=generations;
 		this.population=population;
 		this.students=students;
 		this.modules=modules;
 		this.modulePerCourse=modulePerCourse;
 		this.d=modules/2;
+		this.crossover=crossover;
+		this.mutation=mutation;
+		this.reproduction=reproduction;
 	}
 	
 	//This method writes the schedule data to a text file.
 	//It writes the student data from the multi-dimensional arraylist studentList and the odering data from the 2D array in the Ordering object.
 	public void print(Schedule studentsSchedule, int students,int modules, int modulePerCourse){
 		ArrayList<ArrayList<Integer>> studentList= studentsSchedule.getStudentList();
-		ArrayList<Ordering>  populationOrders= studentsSchedule.getPopulationOrders();
+		List<Ordering>  populationOrders= studentsSchedule.getPopulationOrders();
 		int [][] orderModules;
+		int counter=1;
 		try{
 			PrintWriter writer = new PrintWriter("AI17.txt", "UTF-8");
 			for(int i=0;i<studentList.get(0).size();i+=modulePerCourse){
@@ -156,7 +192,7 @@ class Schedule{
 				orderModules=order.getOrdering();
 				String line1="";
 				String line2="     ";
-				writer.print("Ord"+order.getOrderNum()+":");
+				writer.print("Ord"+counter+":");
 				for(int c=0;c<modules/2;c++){
 					line1+=" m"+ orderModules[0][c];
 					line2+=" m"+ orderModules[1][c];
@@ -165,6 +201,7 @@ class Schedule{
 				writer.println(line1);
 				writer.println(line2);
 				writer.println();
+				counter++;
 			}
 			writer.close();
 			System.out.println("Output printed to file 'AI17.txt'.");
@@ -209,7 +246,7 @@ class Schedule{
 		return studentsSchedule;
 	}
 	
-	public ArrayList<Ordering> getPopulationOrders(){
+	public List<Ordering> getPopulationOrders(){
 		return populationOrders;
 	}
 	
@@ -219,6 +256,77 @@ class Schedule{
 			moduleList.add(i);	
 		}	
 		return moduleList;
+	}
+	
+	public void selection(){
+		selectionPopulation=population/3;
+
+		
+		populationOrders= populationOrders.stream()
+			.sorted(Comparator.comparing(o->o.getCost()))
+			.collect(Collectors.toList());
+		   
+		for(int j=0;j<selectionPopulation;j++){
+			populationOrders.remove(j*2);
+			temp=populationOrders.get(j);
+			populationOrders.add(temp);
+			temp2=temp=populationOrders.get(j);
+		}
+		/*for(int i=0;i<populationOrders.size();i++){
+			int x=i+1;
+			temp=populationOrders.get(i);
+			temp2=populationOrders.get(x);
+			int index= 1 + (int)(Math.random() * 100); 
+			if(index<=mutation)
+				mutation(temp);
+			else if(index >mutation && index <= mutation + crossover)
+				crossover(temp,temp2);
+			else
+				System.out.println("Reproduction");
+		}*/
+		crossover(temp,temp2);
+	}
+	
+	public void crossover(Ordering order1, Ordering order2){
+		System.out.println("Crossover");
+		int cp= Math.abs((int)(Math.random() * (2-((2*d)-2)))); 
+		//int cpAbs= abs(cp);
+		int[][] ord1=order1.getOrdering();
+		int[][] ord2=order2.getOrdering();
+		
+		int o1_1=Math.abs(1-cp);
+		int o1_2=Math.abs((cp+1)-(2*d));
+		int o2_1=Math.abs(1-cp);
+		int o2_2=Math.abs((cp+1)-(2*d));
+		int[]ord1_1= new int[o1_1];
+		int[]ord1_2= new int[o1_2];
+		int[]ord2_1= new int[o2_1];
+		int[]ord2_2= new int[o2_2];
+		
+		for(int i=0;i<ord1[0].length;i++){
+			for(int j=0;i<ord1.length;i++){
+				
+			}
+		}
+	}
+	
+	public void mutation(Ordering order){
+		System.out.println("Mutation");
+		
+		int day1= 0 + (int)(Math.random() * 1); 
+		int day2= 0 + (int)(Math.random() * 1); 
+		int exam1= 0 + (int)(Math.random() * d); 
+		int exam2= 0 + (int)(Math.random() * d); 
+		
+		mutationArray=order.getOrdering();
+		int temp;
+		
+		temp=mutationArray[day1][exam1];
+		mutationArray[day1][exam1]=mutationArray[day2][exam2];
+		mutationArray[day2][exam2]=temp;
+		
+		order.setOrdering(mutationArray);
+		order.generateFitness();
 	}
 }
 
@@ -310,6 +418,10 @@ class Ordering{
 	
 	public int getOrderNum(){
 		return ordernum;
+	}
+	
+	public void setOrdering(int [][] ordering){
+		this.ordering=ordering;
 	}
 };
 
