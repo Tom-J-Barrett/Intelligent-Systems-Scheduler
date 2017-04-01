@@ -1,38 +1,38 @@
-Student 1: M4 M1 M8 M15 M19
-Student 2: M5 M20 M19 M18 M4
-Student 3: M10 M2 M1 M8 M16
-Student 4: M3 M17 M20 M11 M13
-Student 5: M13 M12 M20 M1 M8
-Student 6: M17 M20 M16 M8 M7
-Student 7: M11 M2 M14 M17 M13
-Student 8: M1 M8 M10 M17 M2
-Student 9: M16 M9 M1 M18 M15
-Student 10: M13 M11 M9 M10 M16
+Student 1: M6 M15 M8 M19 M4
+Student 2: M8 M2 M7 M5 M3
+Student 3: M14 M16 M9 M10 M19
+Student 4: M9 M13 M19 M6 M10
+Student 5: M12 M4 M10 M20 M9
+Student 6: M6 M16 M3 M8 M10
+Student 7: M11 M19 M16 M20 M3
+Student 8: M18 M3 M19 M9 M2
+Student 9: M18 M10 M4 M3 M1
+Student 10: M20 M7 M12 M1 M5
 
-Ord1: m14 m7 m13 m4 m16 m1 m15 m18 m8 m17
-      m3 m11 m19 m12 m2 m5 m9 m10 m6 m20  cost: 4
+Ord1: m5 m16 m15 m1 m11 m18 m3 m9 m17 m14
+      m10 m6 m12 m4 m7 m19 m2 m8 m13 m20  cost: 5
 
-Ord2: m16 m12 m11 m1 m2 m17 m5 m6 m9 m14
-      m3 m19 m13 m18 m7 m4 m8 m15 m10 m20  cost: 5
+Ord2: m19 m5 m7 m13 m9 m14 m18 m3 m15 m17
+      m8 m2 m6 m12 m4 m11 m1 m10 m16 m20  cost: 6
 
-Ord3: m1 m12 m13 m16 m11 m3 m15 m17 m14 m8
-      m18 m19 m9 m2 m10 m4 m6 m5 m7 m20  cost: 6
+Ord3: m15 m3 m6 m18 m11 m16 m5 m19 m13 m14
+      m7 m4 m9 m2 m12 m10 m1 m8 m17 m20  cost: 7
 
-Ord4: m19 m13 m7 m5 m9 m4 m2 m8 m10 m14
-      m15 m18 m12 m6 m3 m1 m16 m17 m11 m20  cost: 6
+Ord4: m12 m7 m10 m5 m17 m8 m9 m15 m3 m14
+      m13 m19 m1 m2 m11 m4 m18 m6 m16 m20  cost: 7
 
-Ord5: m16 m15 m10 m13 m11 m4 m5 m12 m7 m14
-      m9 m19 m2 m3 m18 m6 m17 m1 m8 m20  cost: 8
+Ord5: m8 m3 m14 m18 m2 m11 m9 m7 m13 m12
+      m10 m17 m19 m6 m5 m16 m15 m1 m4 m20  cost: 7
 
-Ord6: m5 m6 m18 m1 m3 m8 m15 m11 m13 m17
-      m4 m14 m7 m2 m10 m16 m12 m19 m9 m20  cost: 8
+Ord6: m1 m3 m17 m16 m7 m14 m8 m13 m15 m11
+      m9 m2 m19 m6 m5 m4 m10 m18 m12 m20  cost: 7
 
-Ord7: m14 m7 m13 m4 m16 m1 m15 m18 m8 m17
-      m3 m11 m19 m12 m2 m5 m9 m10 m6 m20  cost: 4
+Ord7: m5 m16 m15 m1 m11 m18 m3 m9 m17 m14
+      m10 m6 m12 m4 m7 m19 m2 m8 m13 m20  cost: 5
 
-Ord8: m16 m12 m11 m1 m2 m17 m5 m6 m9 m14
-      m3 m19 m13 m18 m7 m4 m8 m15 m10 m20  cost: 5
+Ord8: m19 m5 m7 m13 m9 m14 m18 m3 m15 m17
+      m8 m2 m6 m12 m4 m11 m1 m10 m16 m20  cost: 6
 
-Ord9: m1 m12 m13 m16 m11 m3 m15 m17 m14 m8
-      m18 m19 m9 m2 m10 m4 m6 m5 m7 m20  cost: 6
+Ord9: m15 m3 m6 m18 m11 m16 m5 m19 m13 m14
+      m7 m4 m9 m2 m12 m10 m1 m8 m17 m20  cost: 7
 

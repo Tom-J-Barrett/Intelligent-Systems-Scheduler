@@ -6,6 +6,7 @@ import java.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.Comparator;
+import java.util.Random;
 
 public class is14171198{
 	//main method: 	Creates a Userinput object and sets the integer values needed for this program.
@@ -153,6 +154,14 @@ class Schedule{
 	private ArrayList<Ordering> result;
 	private ArrayList<Integer> modulesPerStudent;
 	ArrayList<Integer> moduleList;
+	private int cp;
+	private int[][] ord1;
+	private int[][] ord2;
+	private int[]ord1_1;
+	private int[]ord1_2;
+	private int[]ord2_1;
+	private int[]ord2_2;
+	private List<Ordering> crossoverList;
 	
 	Schedule(){
 		
@@ -272,42 +281,82 @@ class Schedule{
 			populationOrders.add(temp);
 			temp2=temp=populationOrders.get(j);
 		}
-		/*for(int i=0;i<populationOrders.size();i++){
+		for(int i=0;i<populationOrders.size();i++){
 			int x=i+1;
 			temp=populationOrders.get(i);
 			temp2=populationOrders.get(x);
 			int index= 1 + (int)(Math.random() * 100); 
-			if(index<=mutation)
+			/*if(index<=mutation)
 				mutation(temp);
 			else if(index >mutation && index <= mutation + crossover)
 				crossover(temp,temp2);
 			else
-				System.out.println("Reproduction");
-		}*/
-		crossover(temp,temp2);
+				System.out.println("Reproduction");*/
+			crossoverList=new ArrayList();
+			crossoverList.add(temp);
+			crossoverList.add(temp2);
+			//crossoverList=crossover(crossoverList);
+			//populationOrders.get(i)=temp;
+			//populationOrders.get(x)=temp2;
+		}	
 	}
 	
-	public void crossover(Ordering order1, Ordering order2){
+	public List<Ordering> crossover(List<Ordering> crossoverList){
+		Ordering order1=crossoverList.get(0);
+		Ordering order2=crossoverList.get(1);
 		System.out.println("Crossover");
-		int cp= Math.abs((int)(Math.random() * (2-((2*d)-2)))); 
+		cp=(int)(Math.random() * ((2*d)-4)) + 2; 
 		//int cpAbs= abs(cp);
-		int[][] ord1=order1.getOrdering();
-		int[][] ord2=order2.getOrdering();
+		ord1=order1.getOrdering();
+		ord2=order2.getOrdering();
 		
-		int o1_1=Math.abs(1-cp);
-		int o1_2=Math.abs((cp+1)-(2*d));
-		int o2_1=Math.abs(1-cp);
-		int o2_2=Math.abs((cp+1)-(2*d));
-		int[]ord1_1= new int[o1_1];
-		int[]ord1_2= new int[o1_2];
-		int[]ord2_1= new int[o2_1];
-		int[]ord2_2= new int[o2_2];
+		ord1_1= new int[cp-1];
+		ord1_2= new int[(2*d)-(cp)];
+		ord2_1= new int[cp-1];
+		ord2_2= new int[(2*d)-(cp)];
 		
-		for(int i=0;i<ord1[0].length;i++){
-			for(int j=0;i<ord1.length;i++){
-				
-			}
+		System.out.println(cp);
+		System.out.println(order1.getOrderNum());
+		System.out.println(order2.getOrderNum());
+		
+		if(cp<ord1[0].length){
+			swapValues(0);
 		}
+		else if(cp>ord1[0].length){
+			swapValues(1);
+		}
+		ord1=swapDoubles(ord1);
+		ord2=swapDoubles(ord2);
+		order1.setOrdering(ord1);
+		order2.setOrdering(ord2);
+	//	crossoverList.get(0)=order1;
+	//	crossoverList.get(1)=order2;
+		return crossoverList;
+	}
+	
+	public void swapValues(int x){
+		for(int i=0;i<ord1[x].length-1;i++){
+			System.out.println(i+"     "+cp);
+			if(i<cp){
+				ord1_1[i]=ord1[x][i];
+				ord2_1[i]=ord2[x][i];
+			}
+			else
+				i=ord1[0].length;
+		}
+		for(int c=0;c<ord1[x].length;c++){
+			ord1[x][c]=ord1_1[c];
+			ord2[x][c]=ord2_1[c];
+		}
+		if(x==0){
+			int[][]temp=ord1;
+			ord1=ord2;
+			ord2=temp;
+		}
+	}
+	
+	public int[][] swapDoubles(int [][] ord){
+		return ord;
 	}
 	
 	public void mutation(Ordering order){
