@@ -162,6 +162,7 @@ class Schedule{
 	private int[]ord2_1;
 	private int[]ord2_2;
 	private List<Ordering> crossoverList;
+	private List<Ordering> crossoverList2;
 	
 	Schedule(){
 		
@@ -201,7 +202,7 @@ class Schedule{
 				orderModules=order.getOrdering();
 				String line1="";
 				String line2="     ";
-				writer.print("Ord"+counter+":");
+				writer.print("Ord"+order.getOrderNum()+":");
 				for(int c=0;c<modules/2;c++){
 					line1+=" m"+ orderModules[0][c];
 					line2+=" m"+ orderModules[1][c];
@@ -281,7 +282,8 @@ class Schedule{
 			populationOrders.add(temp);
 			temp2=temp=populationOrders.get(j);
 		}
-		for(int i=0;i<populationOrders.size();i++){
+		
+		for(int i=0;i<populationOrders.size()-1;i+=2){
 			int x=i+1;
 			temp=populationOrders.get(i);
 			temp2=populationOrders.get(x);
@@ -295,9 +297,10 @@ class Schedule{
 			crossoverList=new ArrayList();
 			crossoverList.add(temp);
 			crossoverList.add(temp2);
-			//crossoverList=crossover(crossoverList);
-			//populationOrders.get(i)=temp;
-			//populationOrders.get(x)=temp2;
+			crossoverList=crossover(crossoverList);
+			populationOrders.set(i, crossoverList.get(0));
+			populationOrders.set(x, crossoverList.get(1));
+			System.out.println();
 		}	
 	}
 	
@@ -306,53 +309,58 @@ class Schedule{
 		Ordering order2=crossoverList.get(1);
 		System.out.println("Crossover");
 		cp=(int)(Math.random() * ((2*d)-4)) + 2; 
-		//int cpAbs= abs(cp);
+		//2D arrays
 		ord1=order1.getOrdering();
 		ord2=order2.getOrdering();
 		
-		ord1_1= new int[cp-1];
+		//1D arrays
+		ord1_1= new int[cp];
 		ord1_2= new int[(2*d)-(cp)];
-		ord2_1= new int[cp-1];
+		ord2_1= new int[cp];
 		ord2_2= new int[(2*d)-(cp)];
 		
 		System.out.println(cp);
-		System.out.println(order1.getOrderNum());
-		System.out.println(order2.getOrderNum());
 		
 		if(cp<ord1[0].length){
+			System.out.println("Small cp");
 			swapValues(0);
 		}
 		else if(cp>ord1[0].length){
+			System.out.println("Big cp");
 			swapValues(1);
 		}
-		ord1=swapDoubles(ord1);
-		ord2=swapDoubles(ord2);
+		//ord1=swapDoubles(ord1);
+		//ord2=swapDoubles(ord2);
 		order1.setOrdering(ord1);
 		order2.setOrdering(ord2);
-	//	crossoverList.get(0)=order1;
-	//	crossoverList.get(1)=order2;
-		return crossoverList;
+		crossoverList2=new ArrayList();
+		crossoverList2.add(order1);
+		crossoverList2.add(order2);
+		return crossoverList2;
 	}
 	
 	public void swapValues(int x){
-		for(int i=0;i<ord1[x].length-1;i++){
-			System.out.println(i+"     "+cp);
-			if(i<cp){
-				ord1_1[i]=ord1[x][i];
-				ord2_1[i]=ord2[x][i];
+
+		System.out.println("Yo"+ord1.length+"  "+ord2.length);
+		System.out.println("Bo"+ord1_1.length);
+		if(x==1){
+			for(int i=0;i<ord1_2.length;i++){
+				System.out.println(i);
+				ord1_2[i]=ord1[x][cp+i];
+				ord2_2[i]=ord2[x][cp+i];
 			}
-			else
-				i=ord1[0].length;
+			for(int c=0;c<ord1_2.length;c++){
+				ord1[x][c+(cp-d)]=ord1_2[c];
+				ord2[x][c+(cp-d)]=ord2_2[c];
+			}
 		}
-		for(int c=0;c<ord1[x].length;c++){
-			ord1[x][c]=ord1_1[c];
-			ord2[x][c]=ord2_1[c];
-		}
-		if(x==0){
+		else
+			System.out.println("Nope");
+		/*if(x==0){
 			int[][]temp=ord1;
 			ord1=ord2;
 			ord2=temp;
-		}
+		}*/
 	}
 	
 	public int[][] swapDoubles(int [][] ord){
