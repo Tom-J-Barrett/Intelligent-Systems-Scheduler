@@ -326,13 +326,12 @@ class Schedule{
 		if(cp<ord1[0].length){
 			System.out.println("Small cp");
 			swapValues(0);
-			swapDoubles(0);
 		}
 		else if(cp>ord1[0].length){
 			System.out.println("Big cp");
 			swapValues(1);
-			swapDoubles(1);
 		}
+		swapDoubles(0);
 		
 		order1.setOrdering(ord1);
 		order2.setOrdering(ord2);
@@ -373,40 +372,17 @@ class Schedule{
 	
 	public void swapDoubles(int b){
 		duplicates=new HashMap<Integer,Integer>();
-		for(int i=0; i<ord1.length;i++){
-			for(int j=0; j<ord1[i].length;j++){
-				int x=ord1[i][j];
-				int y=ord2[i][j];
-				for(int c=0; c<ord1.length;c++){
-					for(int e=0; e<ord1[i].length;e++){
-						int w=ord1[c][e];
-						int z=ord2[c][e];
-						if(x==w){
-							if(b==0){
-								duplicates.put(x,j);
-							}
-							else if(b==1){
-								duplicates.put(w,e);
-							}
-						}
-						else if(y==z){
-							if(b==0){
-								duplicates.put(y,j);
-							}
-							else if(b==1){
-								duplicates.put(z,e);
-							}
-						}
-					}
+		for(int j=0;j<ord1[0].length;j++){
+			for(int k=j+1;k<ord1[1].length;k++){
+				if(ord1[0][j]==ord1[0][k]&&(!(j==k))){
+					System.out.println("Match row 1  : "+ord1[0][j]+"	"+ord1[0][k]+ " "+k+" "+j);
 				}
-			}
-		}
-		Iterator it = duplicates.entrySet().iterator();
-		Iterator it2 = duplicates.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry)it.next();
-			while (it.hasNext()) {
-				Map.Entry pair2 = (Map.Entry)it.next();
+				else if(ord1[1][j]==ord1[1][k]&&(!(j==k))){
+					System.out.println("Match row 2  : "+ord1[1][j]+"	"+ord1[1][k]+ " "+k+" "+j);
+				}
+				else if(ord1[0][j]==ord1[1][k]){
+					System.out.println("Match row 3  : "+ord1[0][j]+"	"+ord1[1][k]+ " "+k+" "+j);
+				}
 			}
 		}
 	}
