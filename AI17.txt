@@ -1,38 +1,281 @@
-Student 1: M5 M9 M7 M11 M18
-Student 2: M19 M9 M1 M16 M2
-Student 3: M3 M10 M9 M11 M7
-Student 4: M5 M3 M6 M2 M15
-Student 5: M12 M6 M13 M5 M14
-Student 6: M2 M13 M4 M11 M7
-Student 7: M13 M14 M16 M17 M12
-Student 8: M10 M7 M16 M1 M19
-Student 9: M10 M8 M13 M9 M2
-Student 10: M10 M12 M14 M4 M2
+Student 1: M6 M7 M2 M10 M15
+Student 2: M18 M8 M15 M13 M20
+Student 3: M13 M15 M11 M2 M4
+Student 4: M5 M7 M13 M1 M15
+Student 5: M9 M18 M6 M2 M4
+Student 6: M9 M2 M14 M10 M7
+Student 7: M6 M17 M19 M18 M15
+Student 8: M10 M18 M16 M3 M9
+Student 9: M10 M2 M8 M7 M1
+Student 10: M6 M13 M19 M2 M12
 
-Ord3: m14 m10 m8 m16 m5 m2 m3 m19 m12 m6
-      m18 m17 m13 m15 m1 m7 m11 m4 m9 m20  cost: 3
+Ord7: m1 m7 m3 m10 m4 m5 m14 m3 m18 m10
+      m1 m2 m13 m6 m15 m4 m17 m7 m12 m20  cost: 2
 
-Ord5: m9 m13 m19 m16 m6 m8 m7 m4 m3 m15
-      m14 m2 m5 m10 m12 m11 m17 m18 m1 m20  cost: 4
+Ord22: m16 m19 m11 m8 m9 m9 m11 m8 m17 m12
+      m16 m19 m2 m13 m5 m15 m14 m18 m6 m20  cost: 2
 
-Ord2: m2 m19 m8 m14 m15 m12 m9 m13 m5 m18
-      m10 m1 m7 m3 m6 m16 m11 m4 m17 m20  cost: 5
+Ord76: m4 m18 m5 m2 m15 m14 m10 m6 m13 m19
+      m9 m18 m12 m8 m3 m1 m11 m7 m16 m20  cost: 2
 
-Ord8: m12 m19 m14 m2 m8 m16 m1 m6 m7 m18
-      m3 m4 m15 m10 m13 m9 m11 m5 m17 m20  cost: 5
+Ord83: m11 m4 m17 m2 m13 m10 m12 m5 m19 m9
+      m1 m8 m17 m16 m3 m15 m6 m14 m7 m20  cost: 2
 
-Ord7: m7 m15 m16 m13 m10 m2 m11 m19 m1 m8
-      m17 m12 m3 m14 m4 m9 m18 m5 m6 m20  cost: 7
+Ord14: m2 m16 m11 m12 m9 m10 m14 m4 m18 m5
+      m19 m7 m3 m8 m1 m13 m15 m17 m6 m20  cost: 3
 
-Ord4: m13 m5 m19 m12 m10 m11 m14 m2 m7 m15
-      m1 m8 m16 m17 m9 m3 m4 m18 m6 m20  cost: 9
+Ord16: m13 m2 m8 m17 m4 m14 m9 m5 m16 m15
+      m18 m3 m12 m11 m10 m1 m7 m6 m19 m20  cost: 3
 
-Ord3: m14 m10 m8 m16 m5 m2 m3 m19 m12 m6
-      m18 m17 m13 m15 m1 m7 m11 m4 m9 m20  cost: 3
+Ord46: m1 m17 m10 m3 m12 m11 m7 m2 m4 m6
+      m13 m9 m15 m8 m5 m18 m16 m14 m19 m20  cost: 6
 
-Ord5: m9 m13 m19 m16 m6 m8 m7 m4 m3 m15
-      m14 m2 m5 m10 m12 m11 m17 m18 m1 m20  cost: 4
+Ord63: m12 m1 m4 m11 m19 m6 m5 m3 m14 m13
+      m2 m7 m8 m9 m10 m16 m17 m18 m15 m20  cost: 3
 
-Ord2: m2 m19 m8 m14 m15 m12 m9 m13 m5 m18
-      m10 m1 m7 m3 m6 m16 m11 m4 m17 m20  cost: 5
+Ord72: m12 m11 m1 m4 m19 m3 m17 m9 m8 m14
+      m5 m18 m13 m7 m2 m15 m10 m6 m16 m20  cost: 3
+
+Ord74: m7 m14 m17 m5 m1 m6 m12 m13 m15 m18
+      m9 m4 m3 m2 m19 m8 m10 m11 m16 m20  cost: 3
+
+Ord1: m15 m2 m19 m18 m4 m8 m6 m7 m17 m13
+      m1 m11 m12 m5 m14 m9 m3 m16 m10 m20  cost: 4
+
+Ord13: m1 m11 m8 m5 m4 m6 m17 m19 m13 m16
+      m15 m14 m18 m2 m3 m7 m10 m12 m9 m20  cost: 4
+
+Ord30: m15 m7 m17 m10 m8 m3 m2 m6 m4 m19
+      m16 m9 m11 m1 m5 m12 m18 m14 m13 m20  cost: 8
+
+Ord48: m3 m11 m8 m15 m18 m10 m14 m17 m7 m5
+      m4 m6 m9 m1 m16 m19 m2 m12 m13 m20  cost: 4
+
+Ord66: m13 m1 m17 m2 m3 m15 m8 m5 m3 m13
+      m2 m19 m9 m17 m12 m10 m6 m18 m4 m20  cost: 4
+
+Ord68: m11 m14 m16 m7 m1 m4 m7 m5 m15 m11
+      m6 m14 m18 m16 m10 m19 m9 m8 m12 m20  cost: 4
+
+Ord17: m7 m14 m11 m4 m18 m2 m10 m9 m19 m6
+      m5 m13 m3 m17 m15 m8 m1 m12 m16 m20  cost: 5
+
+Ord18: m2 m7 m12 m4 m5 m13 m3 m14 m9 m18
+      m8 m19 m1 m17 m16 m6 m11 m15 m10 m20  cost: 5
+
+Ord21: m12 m16 m17 m8 m19 m4 m1 m15 m13 m14
+      m11 m9 m7 m2 m18 m5 m10 m3 m6 m20  cost: 5
+
+Ord26: m15 m11 m18 m5 m1 m19 m4 m12 m13 m8
+      m16 m2 m17 m7 m9 m3 m10 m14 m6 m20  cost: 5
+
+Ord34: m6 m1 m13 m8 m2 m15 m12 m17 m7 m10
+      m5 m16 m18 m3 m11 m4 m14 m19 m9 m20  cost: 5
+
+Ord38: m6 m9 m8 m5 m1 m10 m2 m14 m19 m18
+      m7 m12 m13 m11 m15 m4 m16 m3 m17 m20  cost: 5
+
+Ord49: m10 m14 m6 m1 m9 m11 m7 m15 m16 m5
+      m4 m18 m13 m8 m2 m12 m3 m17 m19 m20  cost: 5
+
+Ord51: m3 m8 m2 m11 m12 m15 m7 m18 m5 m19
+      m1 m14 m16 m10 m9 m4 m17 m6 m13 m20  cost: 9
+
+Ord57: m18 m14 m6 m1 m12 m7 m17 m11 m5 m10
+      m8 m4 m16 m9 m15 m2 m3 m13 m19 m20  cost: 5
+
+Ord65: m13 m9 m17 m3 m18 m4 m8 m5 m6 m11
+      m16 m1 m2 m10 m12 m14 m15 m19 m7 m20  cost: 5
+
+Ord84: m3 m17 m13 m5 m6 m16 m8 m15 m7 m1
+      m10 m4 m2 m11 m9 m12 m19 m18 m14 m20  cost: 5
+
+Ord89: m11 m9 m19 m8 m18 m7 m10 m13 m1 m17
+      m15 m16 m2 m4 m5 m3 m14 m6 m12 m20  cost: 10
+
+Ord4: m18 m1 m12 m6 m17 m19 m3 m4 m11 m15
+      m13 m14 m8 m9 m7 m5 m10 m2 m16 m20  cost: 6
+
+Ord10: m1 m14 m19 m11 m8 m11 m1 m3 m4 m16
+      m7 m13 m6 m5 m2 m17 m14 m19 m8 m20  cost: 6
+
+Ord15: m10 m9 m15 m18 m12 m2 m16 m12 m6 m18
+      m13 m9 m3 m7 m5 m17 m10 m4 m15 m20  cost: 6
+
+Ord20: m6 m17 m5 m15 m7 m9 m3 m10 m13 m16
+      m4 m12 m19 m1 m18 m2 m8 m14 m11 m20  cost: 6
+
+Ord36: m10 m4 m6 m9 m14 m19 m2 m17 m8 m16
+      m18 m15 m12 m11 m5 m7 m13 m3 m1 m20  cost: 6
+
+Ord37: m14 m6 m7 m11 m9 m16 m18 m4 m15 m19
+      m3 m5 m8 m17 m2 m1 m13 m10 m12 m20  cost: 6
+
+Ord42: m4 m18 m6 m14 m9 m8 m2 m5 m17 m19
+      m15 m3 m12 m7 m1 m13 m10 m16 m11 m20  cost: 6
+
+Ord44: m2 m16 m17 m4 m3 m11 m8 m13 m7 m19
+      m15 m1 m5 m14 m18 m6 m12 m9 m10 m20  cost: 6
+
+Ord52: m7 m6 m16 m13 m11 m2 m19 m15 m18 m10
+      m1 m14 m9 m17 m12 m8 m3 m5 m4 m20  cost: 6
+
+Ord58: m16 m6 m7 m3 m14 m2 m18 m12 m9 m19
+      m13 m15 m17 m10 m8 m11 m4 m5 m1 m20  cost: 6
+
+Ord71: m4 m1 m3 m13 m14 m9 m2 m7 m10 m15
+      m6 m11 m8 m17 m18 m5 m16 m19 m12 m20  cost: 6
+
+Ord77: m15 m8 m3 m12 m10 m2 m16 m5 m6 m19
+      m18 m1 m14 m4 m9 m17 m13 m11 m7 m20  cost: 6
+
+Ord86: m11 m18 m2 m13 m7 m16 m3 m15 m9 m14
+      m1 m10 m6 m4 m19 m17 m8 m5 m12 m20  cost: 6
+
+Ord88: m16 m4 m10 m3 m11 m8 m7 m12 m5 m14
+      m1 m6 m9 m2 m17 m13 m18 m15 m19 m20  cost: 6
+
+Ord8: m19 m10 m3 m2 m15 m18 m17 m8 m4 m11
+      m14 m13 m12 m16 m1 m6 m9 m5 m7 m20  cost: 7
+
+Ord9: m6 m9 m1 m2 m13 m3 m7 m12 m15 m18
+      m4 m16 m11 m5 m17 m19 m10 m14 m8 m20  cost: 7
+
+Ord24: m5 m6 m1 m2 m12 m11 m13 m18 m4 m9
+      m15 m19 m10 m7 m17 m8 m3 m14 m16 m20  cost: 7
+
+Ord32: m11 m18 m8 m6 m13 m19 m16 m10 m4 m3
+      m12 m15 m9 m14 m2 m5 m17 m7 m1 m20  cost: 7
+
+Ord35: m13 m19 m8 m18 m9 m10 m2 m7 m14 m16
+      m5 m12 m3 m4 m1 m15 m6 m17 m11 m20  cost: 7
+
+Ord39: m16 m9 m11 m14 m2 m3 m4 m10 m13 m6
+      m17 m12 m1 m19 m15 m18 m8 m7 m5 m20  cost: 7
+
+Ord43: m6 m9 m17 m11 m10 m7 m8 m3 m15 m16
+      m12 m13 m5 m1 m2 m14 m18 m19 m4 m20  cost: 7
+
+Ord54: m16 m11 m4 m2 m15 m5 m7 m18 m8 m13
+      m12 m9 m14 m19 m1 m17 m10 m3 m6 m20  cost: 7
+
+Ord62: m17 m12 m5 m7 m19 m6 m4 m14 m11 m8
+      m1 m18 m9 m15 m10 m2 m13 m16 m3 m20  cost: 7
+
+Ord64: m13 m12 m5 m9 m18 m1 m2 m16 m15 m14
+      m3 m11 m6 m19 m17 m10 m4 m7 m8 m20  cost: 7
+
+Ord78: m5 m17 m18 m3 m12 m19 m2 m7 m13 m15
+      m9 m6 m1 m11 m8 m4 m16 m10 m14 m20  cost: 7
+
+Ord80: m10 m8 m15 m14 m16 m1 m12 m4 m6 m2
+      m3 m7 m13 m19 m5 m11 m9 m17 m18 m20  cost: 7
+
+Ord87: m5 m2 m3 m11 m19 m9 m18 m13 m8 m17
+      m12 m10 m14 m6 m15 m1 m7 m4 m16 m20  cost: 7
+
+Ord23: m7 m8 m5 m18 m17 m14 m9 m19 m2 m11
+      m1 m13 m16 m4 m3 m6 m12 m10 m15 m20  cost: 8
+
+Ord73: m5 m7 m1 m3 m17 m9 m4 m6 m8 m18
+      m15 m13 m2 m11 m14 m16 m12 m19 m10 m20  cost: 8
+
+Ord55: m19 m12 m3 m2 m4 m17 m13 m7 m18 m8
+      m6 m16 m9 m1 m15 m5 m14 m10 m11 m20  cost: 9
+
+Ord90: m6 m1 m15 m7 m4 m3 m16 m19 m10 m14
+      m9 m8 m5 m2 m11 m18 m13 m17 m12 m20  cost: 9
+
+Ord79: m5 m1 m6 m11 m9 m13 m14 m19 m4 m18
+      m15 m7 m2 m3 m16 m8 m17 m12 m10 m20  cost: 10
+
+Ord7: m1 m7 m3 m10 m4 m5 m14 m3 m18 m10
+      m1 m2 m13 m6 m15 m4 m17 m7 m12 m20  cost: 2
+
+Ord22: m16 m19 m11 m8 m9 m9 m11 m8 m17 m12
+      m16 m19 m2 m13 m5 m15 m14 m18 m6 m20  cost: 2
+
+Ord76: m4 m18 m5 m2 m15 m14 m10 m6 m13 m19
+      m9 m18 m12 m8 m3 m1 m11 m7 m16 m20  cost: 2
+
+Ord83: m11 m4 m17 m2 m13 m10 m12 m5 m19 m9
+      m1 m8 m17 m16 m3 m15 m6 m14 m7 m20  cost: 2
+
+Ord14: m2 m16 m11 m12 m9 m10 m14 m4 m18 m5
+      m19 m7 m3 m8 m1 m13 m15 m17 m6 m20  cost: 3
+
+Ord16: m13 m2 m8 m17 m4 m14 m9 m5 m16 m15
+      m18 m3 m12 m11 m10 m1 m7 m6 m19 m20  cost: 3
+
+Ord46: m1 m17 m10 m3 m12 m11 m7 m2 m4 m6
+      m13 m9 m15 m8 m5 m18 m16 m14 m19 m20  cost: 6
+
+Ord63: m12 m1 m4 m11 m19 m6 m5 m3 m14 m13
+      m2 m7 m8 m9 m10 m16 m17 m18 m15 m20  cost: 3
+
+Ord72: m12 m11 m1 m4 m19 m3 m17 m9 m8 m14
+      m5 m18 m13 m7 m2 m15 m10 m6 m16 m20  cost: 3
+
+Ord74: m7 m14 m17 m5 m1 m6 m12 m13 m15 m18
+      m9 m4 m3 m2 m19 m8 m10 m11 m16 m20  cost: 3
+
+Ord1: m15 m2 m19 m18 m4 m8 m6 m7 m17 m13
+      m1 m11 m12 m5 m14 m9 m3 m16 m10 m20  cost: 4
+
+Ord13: m1 m11 m8 m5 m4 m6 m17 m19 m13 m16
+      m15 m14 m18 m2 m3 m7 m10 m12 m9 m20  cost: 4
+
+Ord30: m15 m7 m17 m10 m8 m3 m2 m6 m4 m19
+      m16 m9 m11 m1 m5 m12 m18 m14 m13 m20  cost: 8
+
+Ord48: m3 m11 m8 m15 m18 m10 m14 m17 m7 m5
+      m4 m6 m9 m1 m16 m19 m2 m12 m13 m20  cost: 4
+
+Ord66: m13 m1 m17 m2 m3 m15 m8 m5 m3 m13
+      m2 m19 m9 m17 m12 m10 m6 m18 m4 m20  cost: 4
+
+Ord68: m11 m14 m16 m7 m1 m4 m7 m5 m15 m11
+      m6 m14 m18 m16 m10 m19 m9 m8 m12 m20  cost: 4
+
+Ord17: m7 m14 m11 m4 m18 m2 m10 m9 m19 m6
+      m5 m13 m3 m17 m15 m8 m1 m12 m16 m20  cost: 5
+
+Ord18: m2 m7 m12 m4 m5 m13 m3 m14 m9 m18
+      m8 m19 m1 m17 m16 m6 m11 m15 m10 m20  cost: 5
+
+Ord21: m12 m16 m17 m8 m19 m4 m1 m15 m13 m14
+      m11 m9 m7 m2 m18 m5 m10 m3 m6 m20  cost: 5
+
+Ord26: m15 m11 m18 m5 m1 m19 m4 m12 m13 m8
+      m16 m2 m17 m7 m9 m3 m10 m14 m6 m20  cost: 5
+
+Ord34: m6 m1 m13 m8 m2 m15 m12 m17 m7 m10
+      m5 m16 m18 m3 m11 m4 m14 m19 m9 m20  cost: 5
+
+Ord38: m6 m9 m8 m5 m1 m10 m2 m14 m19 m18
+      m7 m12 m13 m11 m15 m4 m16 m3 m17 m20  cost: 5
+
+Ord49: m10 m14 m6 m1 m9 m11 m7 m15 m16 m5
+      m4 m18 m13 m8 m2 m12 m3 m17 m19 m20  cost: 5
+
+Ord51: m3 m8 m2 m11 m12 m15 m7 m18 m5 m19
+      m1 m14 m16 m10 m9 m4 m17 m6 m13 m20  cost: 9
+
+Ord57: m18 m14 m6 m1 m12 m7 m17 m11 m5 m10
+      m8 m4 m16 m9 m15 m2 m3 m13 m19 m20  cost: 5
+
+Ord65: m13 m9 m17 m3 m18 m4 m8 m5 m6 m11
+      m16 m1 m2 m10 m12 m14 m15 m19 m7 m20  cost: 5
+
+Ord84: m3 m17 m13 m5 m6 m16 m8 m15 m7 m1
+      m10 m4 m2 m11 m9 m12 m19 m18 m14 m20  cost: 5
+
+Ord89: m11 m9 m19 m8 m18 m7 m10 m13 m1 m17
+      m15 m16 m2 m4 m5 m3 m14 m6 m12 m20  cost: 10
+
+Ord4: m18 m1 m12 m6 m17 m19 m3 m4 m11 m15
+      m13 m14 m8 m9 m7 m5 m10 m2 m16 m20  cost: 6
+
+Ord10: m1 m14 m19 m11 m8 m11 m1 m3 m4 m16
+      m7 m13 m6 m5 m2 m17 m14 m19 m8 m20  cost: 6
 

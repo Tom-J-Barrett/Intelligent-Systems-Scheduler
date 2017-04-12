@@ -42,6 +42,8 @@ class UserInput{
 	private boolean modulesIsNotValid;
 	private boolean modulePerCourseIsNotValid;
 	private boolean populationIsNotValid;
+	private boolean crossoverIsNotValid;
+	private boolean mutationIsNotValid;
 	
 	//UserInput class contructor which calls the getInputFromUser method.
 	UserInput(){
@@ -50,6 +52,8 @@ class UserInput{
 		modulePerCourseIsNotValid=true;
 		modulesIsNotValid=true;
 		populationIsNotValid=true;
+		crossoverIsNotValid=true;
+		mutationIsNotValid=true;
 		getInputFromUser();
 	}
 	
@@ -58,44 +62,55 @@ class UserInput{
 		Scanner in=new Scanner(System.in);
 		while(generationsIsNotValid){
 			System.out.println("Please enter number of generations(greater than 0): ");
-			generations=Integer.parseInt(in.nextLine());
+			generations=(in.nextInt());
 			if(generations>0)
 				generationsIsNotValid=false;
 		}	
 		
 		while(populationIsNotValid){
 			System.out.println("Please enter populationsize(greater than 0): ");
-			population=Integer.parseInt(in.nextLine());
+			population=(in.nextInt());
 			if(population>0)
 				populationIsNotValid=false;
 		}
 		
 		while(studentsIsNotValid){
 			System.out.println("Please enter number of students(greater than 0): ");
-			students=Integer.parseInt(in.nextLine());
+			students=(in.nextInt());
 			if(students>0)
 				studentsIsNotValid=false;
 		}
 		
 		while(modulesIsNotValid){
 			System.out.println("Please enter total number of modules(greater than 0 and even): ");
-			modules=Integer.parseInt(in.nextLine());
+			modules=(in.nextInt());
 			if(modules>0 && modules%2==0)
 				modulesIsNotValid=false;
 		}
 		
 		while(modulePerCourseIsNotValid){
 			System.out.println("Please enter number of modules in a course(greater than 0 and less than number of modules: ");
-			modulePerCourse=Integer.parseInt(in.nextLine());
+			modulePerCourse=(in.nextInt());
 			if(modulePerCourse>0 && modulePerCourse<modules)
 				modulePerCourseIsNotValid=false;
 		}
 		
-		System.out.println("Please enter percentage number for crossover: ");
-			crossover=Integer.parseInt(in.nextLine());
-			
-		System.out.println("Please enter percentage number for mutation: ");
-			mutation=Integer.parseInt(in.nextLine());
+		while(crossoverIsNotValid){
+			System.out.println("Please enter percentage number for crossover: ");
+			crossover=(in.nextInt());
+			if(crossover>0 && crossover<=98){
+				crossoverIsNotValid=false;
+			}
+		}
+		
+		while(mutationIsNotValid){
+			System.out.println("Please enter percentage number for mutation: ");
+			mutation=(in.nextInt());
+			if(mutation>0 && (mutation+crossover<100)){
+				mutationIsNotValid=false;
+			}
+		}
+		
 			
 		reproduction=100-mutation-crossover;
 		
@@ -238,6 +253,7 @@ class Schedule{
 			moduleList=generateModules(moduleList);
 			for(int j=0;j<modulePerCourse;j++){
 				n=0 + (int)(Math.random() * (moduleList.size())); 
+				System.out.println("n: "+n);
 				if(moduleList.size()>0){
 					x=moduleList.get(n);	
 					studentsSchedule.get(0).add(i);
@@ -269,6 +285,7 @@ class Schedule{
 		for(int i=1; i< modules+1; i++){
 			moduleList.add(i);	
 		}	
+		System.out.println("Size: "+ moduleList.size());
 		return moduleList;
 	}
 	
@@ -287,24 +304,28 @@ class Schedule{
 			temp2=temp=populationOrders.get(j);
 		}
 		
-		for(int i=0;i<populationOrders.size()-1;i+=2){
-			int x=i+1;
-			temp=populationOrders.get(i);
-			temp2=populationOrders.get(x);
+		for(int i=0;i<populationOrders.size()-1;i++){
 			int index= 1 + (int)(Math.random() * 100); 
-			/*if(index<=mutation)
+			temp=populationOrders.get(i);
+			if(index<=mutation){
+				System.out.println("Mutation");
 				mutation(temp);
-			else if(index >mutation && index <= mutation + crossover)
-				crossover(temp,temp2);
+			}
+			else if(index >mutation && index <= mutation + crossover){
+				int x=i+1;
+				temp2=populationOrders.get(x);
+				crossoverList=new ArrayList();
+				crossoverList.add(temp);
+				crossoverList.add(temp2);
+				crossoverList=crossover(crossoverList);
+				populationOrders.set(i, crossoverList.get(0));
+				populationOrders.set(x, crossoverList.get(1));
+				System.out.println("Crossover");
+				i++;
+			}
 			else
-				System.out.println("Reproduction");*/
-			crossoverList=new ArrayList();
-			crossoverList.add(temp);
-			crossoverList.add(temp2);
-			crossoverList=crossover(crossoverList);
-			populationOrders.set(i, crossoverList.get(0));
-			populationOrders.set(x, crossoverList.get(1));
-			System.out.println();
+				System.out.println("Reproduction");
+			
 		}	
 	}
 	
@@ -381,29 +402,6 @@ class Schedule{
 		}
 	}
 	
-	/*public HashMap<Integer,Integer> getDoubles(HashMap<Integer,Integer> dup, int[][] ord){
-		for(int j=0;j<ord[0].length;j++){
-			for(int k=j+1;k<ord[1].length;k++){
-				if(ord[0][j]==ord[0][k]&&(!(j==k))){
-					dup.put(0,k);
-					System.out.println("Match row 1  : "+ord[0][j]+"	"+ord[0][k]+ " "+k+" "+j);
-				}
-				else if(ord[1][j]==ord[1][k]&&(!(j==k))){
-					dup.put(1,k);
-					System.out.println("Match row 2  : "+ord[1][j]+"	"+ord[1][k]+ " "+k+" "+j);
-				}
-				else if(ord[0][j]==ord[1][k]){
-					dup.put(1,k);
-					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
-				}
-				else if(ord[1][j]==ord[0][k]){
-					dup.put(0,k);
-					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
-				}
-			}
-		}
-		return dup;
-	}*/
 	public List<Integer> getDoubles(List<Integer> dup, int[][] ord){
 		for(int j=0;j<ord[0].length;j++){
 			for(int k=j+1;k<ord[1].length;k++){
@@ -450,8 +448,6 @@ class Schedule{
 	}
 	
 	public void mutation(Ordering order){
-		System.out.println("Mutation");
-		
 		int day1= 0 + (int)(Math.random() * 1); 
 		int day2= 0 + (int)(Math.random() * 1); 
 		int exam1= 0 + (int)(Math.random() * d); 
