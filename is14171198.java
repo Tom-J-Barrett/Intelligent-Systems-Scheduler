@@ -164,6 +164,9 @@ class Schedule{
 	private List<Ordering> crossoverList;
 	private List<Ordering> crossoverList2;
 	private HashMap<Integer, Integer> duplicates;
+	private HashMap<Integer, Integer> duplicates2;
+	private List<Integer> dup1;
+	private List<Integer> dup2;
 	
 	Schedule(){
 		
@@ -331,7 +334,15 @@ class Schedule{
 			System.out.println("Big cp");
 			swapValues(1);
 		}
-		swapDoubles(0);
+		dup1=new ArrayList<Integer>();
+		dup2=new ArrayList<Integer>();
+		/*duplicates=new HashMap<Integer,Integer>();
+		duplicates2=new HashMap<Integer,Integer>();
+		duplicates=getDoubles(duplicates,ord1);
+		duplicates2=getDoubles(duplicates2,ord2);*/
+		dup1=getDoubles(dup1,ord1);
+		dup2=getDoubles(dup2,ord2);
+		swapDoubles();
 		
 		order1.setOrdering(ord1);
 		order2.setOrdering(ord2);
@@ -370,20 +381,71 @@ class Schedule{
 		}
 	}
 	
-	public void swapDoubles(int b){
-		duplicates=new HashMap<Integer,Integer>();
-		for(int j=0;j<ord1[0].length;j++){
-			for(int k=j+1;k<ord1[1].length;k++){
-				if(ord1[0][j]==ord1[0][k]&&(!(j==k))){
-					System.out.println("Match row 1  : "+ord1[0][j]+"	"+ord1[0][k]+ " "+k+" "+j);
+	/*public HashMap<Integer,Integer> getDoubles(HashMap<Integer,Integer> dup, int[][] ord){
+		for(int j=0;j<ord[0].length;j++){
+			for(int k=j+1;k<ord[1].length;k++){
+				if(ord[0][j]==ord[0][k]&&(!(j==k))){
+					dup.put(0,k);
+					System.out.println("Match row 1  : "+ord[0][j]+"	"+ord[0][k]+ " "+k+" "+j);
 				}
-				else if(ord1[1][j]==ord1[1][k]&&(!(j==k))){
-					System.out.println("Match row 2  : "+ord1[1][j]+"	"+ord1[1][k]+ " "+k+" "+j);
+				else if(ord[1][j]==ord[1][k]&&(!(j==k))){
+					dup.put(1,k);
+					System.out.println("Match row 2  : "+ord[1][j]+"	"+ord[1][k]+ " "+k+" "+j);
 				}
-				else if(ord1[0][j]==ord1[1][k]){
-					System.out.println("Match row 3  : "+ord1[0][j]+"	"+ord1[1][k]+ " "+k+" "+j);
+				else if(ord[0][j]==ord[1][k]){
+					dup.put(1,k);
+					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
+				}
+				else if(ord[1][j]==ord[0][k]){
+					dup.put(0,k);
+					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
 				}
 			}
+		}
+		return dup;
+	}*/
+	public List<Integer> getDoubles(List<Integer> dup, int[][] ord){
+		for(int j=0;j<ord[0].length;j++){
+			for(int k=j+1;k<ord[1].length;k++){
+				if(ord[0][j]==ord[0][k]&&(!(j==k))){
+					dup.add(0);
+					dup.add(k);
+					System.out.println("Match row 1  : "+ord[0][j]+"	"+ord[0][k]+ " "+k+" "+j);
+				}
+				else if(ord[1][j]==ord[1][k]&&(!(j==k))){
+					dup.add(1);
+					dup.add(k);
+					System.out.println("Match row 2  : "+ord[1][j]+"	"+ord[1][k]+ " "+k+" "+j);
+				}
+				else if(ord[0][j]==ord[1][k]){
+					dup.add(1);
+					dup.add(k);
+					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
+				}
+				else if(ord[1][j]==ord[0][k]){
+					dup.add(0);
+					dup.add(k);
+					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
+				}
+			}
+		}
+		return dup;
+	}
+	
+	public void swapDoubles(){
+		if(dup1.size()==dup2.size()){
+			for(int i=0;i<dup1.size();i=i+2){ 
+				int row1=dup1.get(i);
+				int col1=dup1.get(i+1);
+				int row2=dup2.get(i);
+				int col2=dup2.get(i+1);
+				int temp= ord1[row1][col1];
+				ord1[row1][col1]= ord2[row2][col2];
+				ord2[row2][col2]=temp;
+			}
+		}
+		else{
+			System.out.println("God damn "+ dup1.size()+" "+dup2.size());
 		}
 	}
 	
