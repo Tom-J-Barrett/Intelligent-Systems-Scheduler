@@ -236,7 +236,8 @@ class Schedule{
 			}
 			writer.println();*/
 			for(Generation g: listOfGenerations){
-			for(Ordering orl: g.getList()){
+				List<Ordering> temp=g.getList();
+			for(Ordering orl:temp){
 				orderModules=orl.getOrdering();
 				String line1="";
 				String line2="     ";
@@ -350,7 +351,13 @@ class Schedule{
 		populationOrders= populationOrders.stream()
 			.sorted(Comparator.comparing(o->o.getCost()))
 			.collect(Collectors.toList());
-		   
+		
+		for(int j=0;j<selectionPopulation;j++){
+			populationOrders.remove(populationOrders.size()-1);
+		}
+		for(int i=0;i<selectionPopulation;i++){
+			populationOrders.add(populationOrders.get(i));
+		}
 		/*for(int j=0;j<selectionPopulation;j++){
 			populationOrders.remove(j*2);
 			temp=populationOrders.get(j);
