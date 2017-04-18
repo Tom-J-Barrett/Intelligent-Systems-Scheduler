@@ -31,7 +31,7 @@ public class is14171198{
 		studentsSchedule.createStudentsSchedule();
 		studentsSchedule.generateOrderings();
 		studentsSchedule.selection();
-		studentsSchedule.print(studentsSchedule,students, modules, modulePerCourse);
+		//studentsSchedule.print(studentsSchedule,students, modules, modulePerCourse);
 	}
 }
 
@@ -182,6 +182,7 @@ class Schedule{
 	private HashMap<Integer, Integer> duplicates2;
 	private List<Integer> dup1;
 	private List<Integer> dup2;
+	private List<Generation> listOfGenerations;
 	
 	Schedule(){
 		
@@ -201,37 +202,55 @@ class Schedule{
 	
 	//This method writes the schedule data to a text file.
 	//It writes the student data from the multi-dimensional arraylist studentList and the odering data from the 2D array in the Ordering object.
-	public void print(Schedule studentsSchedule, int students,int modules, int modulePerCourse){
-		ArrayList<ArrayList<Integer>> studentList= studentsSchedule.getStudentList();
-		List<Ordering>  populationOrders= studentsSchedule.getPopulationOrders();
+	public void print(){
+		//ArrayList<ArrayList<Integer>> studentList= studentsSchedule.getStudentList();
+		//List<Ordering>  populationOrders= studentsSchedule.getPopulationOrders();
 		int [][] orderModules;
 		int counter=1;
 		try{
 			PrintWriter writer = new PrintWriter("AI17.txt", "UTF-8");
-			for(int i=0;i<studentList.get(0).size();i+=modulePerCourse){
+			/*for(Generation g: listOfGenerations){
+				writer.println("Best ordering"+ g.getBestOrderingCost());
+				for(Ordering order: g.getList()){
+				orderModules=order.getOrdering();
+				String line1="";
+				String line2="     ";
+				writer.print("Ord"+order.getOrderNum()+":");
+					for(int c=0;c<modules/2;c++){
+						line1+=" m"+ orderModules[0][c];
+						line2+=" m"+ orderModules[1][c];
+					}
+				line2+="  cost: "+ order.getCost();
+				writer.println(line1);
+				writer.println(line2);
+				writer.println();
+				counter++;
+				}
+			}*/
+			/*for(int i=0;i<studentList.get(0).size();i+=modulePerCourse){
 				writer.print("Student "+ studentList.get(0).get(i)+":");
 				for(int j=i;j<i+modulePerCourse;j++){
 					writer.print(" M" + studentList.get(1).get(j));
 				}
 				writer.println();
 			}
-			writer.println();
-		
-			for(Ordering order: populationOrders){
-				orderModules=order.getOrdering();
+			writer.println();*/
+			for(Generation g: listOfGenerations){
+			for(Ordering orl: g.getList()){
+				orderModules=orl.getOrdering();
 				String line1="";
 				String line2="     ";
-				writer.print("Ord"+order.getOrderNum()+":");
+				writer.print("Ord"+orl.getOrderNum()+":");
 				for(int c=0;c<modules/2;c++){
 					line1+=" m"+ orderModules[0][c];
 					line2+=" m"+ orderModules[1][c];
 				}
-				line2+="  cost: "+ order.getCost();
+				line2+="  cost: "+ orl.getCost();
 				writer.println(line1);
 				writer.println(line2);
 				writer.println();
 				counter++;
-			}
+			}}
 			writer.close();
 			System.out.println("Output printed to file 'AI17.txt'.");
 		} catch (IOException e) {
@@ -290,51 +309,63 @@ class Schedule{
 	}
 	
 	public void selection(){
-		selectionPopulation=population/3;
-
+		//shuffle();
 		
+		listOfGenerations=new ArrayList<Generation>();
+		for(int c=0;c<generations;c++){
+			populationOrders=shuffle();
+			/*for(int i=0;i<populationOrders.size()-1;i++){
+				int index= 1 + (int)(Math.random() * 100); 
+				temp=populationOrders.get(i);
+				if(index<=mutation){
+					System.out.println("Mutation");
+					mutation(temp);
+				}
+				else if(index >mutation && index <= mutation + crossover){
+					int x=i+1;
+					temp2=populationOrders.get(x);
+					crossoverList=new ArrayList();
+					crossoverList.add(temp);
+					crossoverList.add(temp2);
+					crossoverList=crossover(crossoverList);
+					populationOrders.set(i, crossoverList.get(0));
+					populationOrders.set(x, crossoverList.get(1));
+					System.out.println("Crossover");
+					i++;
+				}
+				else
+					System.out.println("Reproduction");
+			}*/
+			Generation g=new Generation();
+			g.setList(populationOrders);
+			g.generateBestOrdering();
+			listOfGenerations.add(g);
+		}
+		print();	
+	}
+	
+	public List<Ordering> shuffle(){
+		selectionPopulation=population/3;
+		System.out.println("shuffle");
 		populationOrders= populationOrders.stream()
 			.sorted(Comparator.comparing(o->o.getCost()))
 			.collect(Collectors.toList());
 		   
-		for(int j=0;j<selectionPopulation;j++){
+		/*for(int j=0;j<selectionPopulation;j++){
 			populationOrders.remove(j*2);
 			temp=populationOrders.get(j);
 			populationOrders.add(temp);
 			temp2=temp=populationOrders.get(j);
-		}
-		
-		for(int i=0;i<populationOrders.size()-1;i++){
-			int index= 1 + (int)(Math.random() * 100); 
-			temp=populationOrders.get(i);
-			if(index<=mutation){
-				System.out.println("Mutation");
-				mutation(temp);
-			}
-			else if(index >mutation && index <= mutation + crossover){
-				int x=i+1;
-				temp2=populationOrders.get(x);
-				crossoverList=new ArrayList();
-				crossoverList.add(temp);
-				crossoverList.add(temp2);
-				crossoverList=crossover(crossoverList);
-				populationOrders.set(i, crossoverList.get(0));
-				populationOrders.set(x, crossoverList.get(1));
-				System.out.println("Crossover");
-				i++;
-			}
-			else
-				System.out.println("Reproduction");
-			
-		}	
+		}*/
+		return populationOrders;
 	}
 	
 	public List<Ordering> crossover(List<Ordering> crossoverList){
 		Ordering order1=crossoverList.get(0);
 		Ordering order2=crossoverList.get(1);
-		System.out.println("Crossover:"+ order1.getOrderNum()+"   "+ order2.getOrderNum());
-		//cp=(int)(Math.random() * ((2*d)-4)) + 2; 
-		cp=5;
+		//System.out.println("Crossover:"+ order1.getOrderNum()+"   "+ order2.getOrderNum());
+		cp=(int)(Math.random() * ((2*d)-4)) + 2; 
+		//cp=5;
 		//2D arrays
 		ord1=order1.getOrdering();
 		ord2=order2.getOrdering();
@@ -344,15 +375,15 @@ class Schedule{
 		ord1_2= new int[(2*d)-(cp)];
 		ord2_1= new int[cp];
 		ord2_2= new int[(2*d)-(cp)];
-		
+		//
 		System.out.println(cp);
 		
 		if(cp<ord1[0].length){
-			System.out.println("Small cp");
+			//System.out.println("Small cp");
 			swapValues(0);
 		}
 		else if(cp>ord1[0].length){
-			System.out.println("Big cp");
+			//System.out.println("Big cp");
 			swapValues(1);
 		}
 		dup1=new ArrayList<Integer>();
@@ -367,6 +398,8 @@ class Schedule{
 		
 		order1.setOrdering(ord1);
 		order2.setOrdering(ord2);
+		order1.generateFitness();
+		order2.generateFitness();
 		crossoverList2=new ArrayList();
 		crossoverList2.add(order1);
 		crossoverList2.add(order2);
@@ -374,9 +407,6 @@ class Schedule{
 	}
 	
 	public void swapValues(int x){
-
-		System.out.println("Yo"+ord1.length+"  "+ord2.length);
-		System.out.println("Bo"+ord1_1.length);
 		if(x==1){
 			for(int i=0;i<ord1_2.length;i++){
 				ord1_2[i]=ord1[x][(cp-d)+i];
@@ -408,22 +438,22 @@ class Schedule{
 				if(ord[0][j]==ord[0][k]&&(!(j==k))){
 					dup.add(0);
 					dup.add(k);
-					System.out.println("Match row 1  : "+ord[0][j]+"	"+ord[0][k]+ " "+k+" "+j);
+					//System.out.println("Match row 1  : "+ord[0][j]+"	"+ord[0][k]+ " "+k+" "+j);
 				}
 				else if(ord[1][j]==ord[1][k]&&(!(j==k))){
 					dup.add(1);
 					dup.add(k);
-					System.out.println("Match row 2  : "+ord[1][j]+"	"+ord[1][k]+ " "+k+" "+j);
+					//System.out.println("Match row 2  : "+ord[1][j]+"	"+ord[1][k]+ " "+k+" "+j);
 				}
 				else if(ord[0][j]==ord[1][k]){
 					dup.add(1);
 					dup.add(k);
-					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
+					//System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
 				}
 				else if(ord[1][j]==ord[0][k]){
 					dup.add(0);
 					dup.add(k);
-					System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
+					//System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
 				}
 			}
 		}
@@ -443,7 +473,7 @@ class Schedule{
 			}
 		}
 		else{
-			System.out.println("God damn "+ dup1.size()+" "+dup2.size());
+			//System.out.println("God damn "+ dup1.size()+" "+dup2.size());
 		}
 	}
 	
@@ -561,6 +591,38 @@ class Ordering{
 };
 
 
+class Generation{
+	private List<Ordering> orderings;
+	private Ordering bestOrdering;
+	
+	Generation(){
+		orderings=new ArrayList<Ordering>();
+	}
+	
+	public void addOrdering(Ordering x){
+		orderings.add(x);
+	}
+	
+	public void generateBestOrdering(){
+		orderings= orderings.stream()
+			.sorted(Comparator.comparing(o->o.getCost()))
+			.collect(Collectors.toList());
+		bestOrdering=orderings.get(0);
+		System.out.println("Best ordering"+ bestOrdering.getCost());
+	}
+	
+	public void setList(List<Ordering> list){
+		this.orderings=list;
+	}
+	
+	public int getBestOrderingCost(){
+		return bestOrdering.getCost();
+	}
+	
+	public List<Ordering> getList(){
+		return orderings;
+	}
+}
 
 
 
