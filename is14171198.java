@@ -10,7 +10,8 @@ import java.util.Random;
 
 public class is14171198{
 	//main method: 	Creates a Userinput object and sets the integer values needed for this program.
-	//				Creates a Schedule object, envokes the createStudentsSchedule method, envokes the generateOrderings method and nvokes the print method.
+	//				Creates a Schedule object, envokes the createStudentsSchedule method, envokes the generateOrderings method.
+	//				When this is complete it calls the selection method which runs the GA.
 	public static void main(String[]args){
 		int generations,population,students,modulePerCourse,modules,d,n,crossover,mutation,reproduction;
 		
@@ -31,10 +32,10 @@ public class is14171198{
 		studentsSchedule.createStudentsSchedule();
 		studentsSchedule.generateOrderings();
 		studentsSchedule.selection();
-		//studentsSchedule.print(studentsSchedule,students, modules, modulePerCourse);
 	}
 }
 
+//Class UerInput is used to take in parameters from the user 
 class UserInput{
 	private int generations,population,students,modulePerCourse,modules,d,n,crossover,mutation,reproduction;
 	private boolean generationsIsNotValid;
@@ -58,56 +59,80 @@ class UserInput{
 	}
 	
 	//This method takes in data from the use and sets them to the private data fields for this class.
+	//The input from the user id validated to be an integer in the correct range for each variable
 	public void getInputFromUser(){
 		Scanner in=new Scanner(System.in);
+		//Pattern p = Pattern.compile("^\\d+$");
+		//Matcher numberMatcher;
 		while(generationsIsNotValid){
 			System.out.println("Please enter number of generations(greater than 0): ");
-			generations=(in.nextInt());
-			if(generations>0)
-				generationsIsNotValid=false;
+			try{
+				generations=Integer.parseInt(in.nextLine());
+				if(generations>0)
+					generationsIsNotValid=false;
+			}catch(NumberFormatException ex){	
+			}
 		}	
 		
 		while(populationIsNotValid){
 			System.out.println("Please enter populationsize(greater than 0): ");
-			population=(in.nextInt());
-			if(population>0)
-				populationIsNotValid=false;
+			try{
+				population=Integer.parseInt(in.nextLine());
+				if(population>0)
+					populationIsNotValid=false;
+			}catch(NumberFormatException ex){	
+			}
 		}
 		
 		while(studentsIsNotValid){
 			System.out.println("Please enter number of students(greater than 0): ");
-			students=(in.nextInt());
-			if(students>0)
-				studentsIsNotValid=false;
+			try{
+				students=Integer.parseInt(in.nextLine());
+				if(students>0)
+					studentsIsNotValid=false;
+			}catch(NumberFormatException ex){	
+			}
 		}
 		
 		while(modulesIsNotValid){
 			System.out.println("Please enter total number of modules(greater than 0 and even): ");
-			modules=(in.nextInt());
-			if(modules>0 && modules%2==0)
-				modulesIsNotValid=false;
+			try{
+				modules=Integer.parseInt(in.nextLine());
+				if(modules>0 && modules%2==0)
+					modulesIsNotValid=false;
+			}catch(NumberFormatException ex){	
+			}
 		}
 		
 		while(modulePerCourseIsNotValid){
 			System.out.println("Please enter number of modules in a course(greater than 0 and less than number of modules: ");
-			modulePerCourse=(in.nextInt());
-			if(modulePerCourse>0 && modulePerCourse<modules)
-				modulePerCourseIsNotValid=false;
+			try{
+				modulePerCourse=Integer.parseInt(in.nextLine());
+				if(modulePerCourse>0 && modulePerCourse<modules)
+					modulePerCourseIsNotValid=false;
+			}catch(NumberFormatException ex){	
+			}
 		}
 		
 		while(crossoverIsNotValid){
 			System.out.println("Please enter percentage number for crossover: ");
-			crossover=(in.nextInt());
-			if(crossover>0 && crossover<=98){
-				crossoverIsNotValid=false;
+			try{
+				crossover=Integer.parseInt(in.nextLine());
+				if(crossover>0 && crossover<=98){
+					crossoverIsNotValid=false;
+			}
+			}catch(NumberFormatException ex){	
 			}
 		}
 		
 		while(mutationIsNotValid){
 			System.out.println("Please enter percentage number for mutation: ");
-			mutation=(in.nextInt());
-			if(mutation>0 && (mutation+crossover<100)){
-				mutationIsNotValid=false;
+			try{
+				mutation=Integer.parseInt(in.nextLine());
+				if(mutation>0 && (mutation+crossover<100)){
+					mutationIsNotValid=false;
+			}
+			}catch(NumberFormatException ex){	
 			}
 		}
 		
@@ -155,20 +180,20 @@ class UserInput{
 	
 }
 
-
+//Class Schedule is used to store the schedule
 class Schedule{
 	
 	private int generations,population,students,modulePerCourse,modules,d,n,selectionPopulation,mutation,crossover,reproduction;
-	private ArrayList<ArrayList<Integer>> studentsSchedule;
+	private List<List<Integer>> studentsSchedule;
 	private Ordering ordering;
 	private Ordering temp;
 	private Ordering temp2;
 	private Ordering temp3;
 	private int[][] mutationArray;
 	private List<Ordering> populationOrders;
-	private ArrayList<Ordering> result;
-	private ArrayList<Integer> modulesPerStudent;
-	ArrayList<Integer> moduleList;
+	private List<Ordering> result;
+	private List<Integer> modulesPerStudent;
+	private List<Integer> moduleList;
 	private int cp;
 	private int[][] ord1;
 	private int[][] ord2;
@@ -178,11 +203,11 @@ class Schedule{
 	private int[]ord2_2;
 	private List<Ordering> crossoverList;
 	private List<Ordering> crossoverList2;
-	private HashMap<Integer, Integer> duplicates;
-	private HashMap<Integer, Integer> duplicates2;
+	private Map<Integer, Integer> duplicates;
+	private Map<Integer, Integer> duplicates2;
 	private List<Integer> dup1;
 	private List<Integer> dup2;
-	private List<Generation> listOfGenerations;
+	private List<Generation> gen;
 	
 	Schedule(){
 		
@@ -201,57 +226,29 @@ class Schedule{
 	}
 	
 	//This method writes the schedule data to a text file.
-	//It writes the student data from the multi-dimensional arraylist studentList and the odering data from the 2D array in the Ordering object.
-	public void print(){
-		//ArrayList<ArrayList<Integer>> studentList= studentsSchedule.getStudentList();
-		//List<Ordering>  populationOrders= studentsSchedule.getPopulationOrders();
+	//This method loops through a list of generations and prints out the best ordering that has been calculated earlier
+	public void print(String name){
 		int [][] orderModules;
 		int counter=1;
 		try{
-			PrintWriter writer = new PrintWriter("AI17.txt", "UTF-8");
-			/*for(Generation g: listOfGenerations){
-				writer.println("Best ordering"+ g.getBestOrderingCost());
-				for(Ordering order: g.getList()){
+			PrintWriter writer = new PrintWriter(name, "UTF-8");
+
+			for(Generation g: gen){
+				Ordering order= g.getBest();
 				orderModules=order.getOrdering();
 				String line1="";
-				String line2="     ";
-				writer.print("Ord"+order.getOrderNum()+":");
-					for(int c=0;c<modules/2;c++){
-						line1+=" m"+ orderModules[0][c];
-						line2+=" m"+ orderModules[1][c];
-					}
+				String line2="                                ";
+				writer.print("Generation: "+counter+"  Best Ordering"+" :");
+				for(int c=0;c<modules/2;c++){
+					line1+=" m"+ orderModules[0][c];
+					line2+=" m"+ orderModules[1][c];
+				}
 				line2+="  cost: "+ order.getCost();
 				writer.println(line1);
 				writer.println(line2);
 				writer.println();
 				counter++;
-				}
-			}*/
-			/*for(int i=0;i<studentList.get(0).size();i+=modulePerCourse){
-				writer.print("Student "+ studentList.get(0).get(i)+":");
-				for(int j=i;j<i+modulePerCourse;j++){
-					writer.print(" M" + studentList.get(1).get(j));
-				}
-				writer.println();
 			}
-			writer.println();*/
-			for(Generation g: listOfGenerations){
-				List<Ordering> temp=g.getList();
-			for(Ordering orl:temp){
-				orderModules=orl.getOrdering();
-				String line1="";
-				String line2="     ";
-				writer.print("Ord"+orl.getOrderNum()+":");
-				for(int c=0;c<modules/2;c++){
-					line1+=" m"+ orderModules[0][c];
-					line2+=" m"+ orderModules[1][c];
-				}
-				line2+="  cost: "+ orl.getCost();
-				writer.println(line1);
-				writer.println(line2);
-				writer.println();
-				counter++;
-			}}
 			writer.close();
 			System.out.println("Output printed to file 'AI17.txt'.");
 		} catch (IOException e) {
@@ -263,7 +260,7 @@ class Schedule{
 	public void createStudentsSchedule(){
 		modulesPerStudent=new ArrayList<Integer>();
 		moduleList=new ArrayList<Integer>();
-		studentsSchedule= new ArrayList<ArrayList<Integer>>();
+		studentsSchedule= new ArrayList<List<Integer>>();
 		studentsSchedule.add(new ArrayList<Integer>());
 		studentsSchedule.add(new ArrayList<Integer>());
 		
@@ -273,7 +270,6 @@ class Schedule{
 			moduleList=generateModules(moduleList);
 			for(int j=0;j<modulePerCourse;j++){
 				n=0 + (int)(Math.random() * (moduleList.size())); 
-				System.out.println("n: "+n);
 				if(moduleList.size()>0){
 					x=moduleList.get(n);	
 					studentsSchedule.get(0).add(i);
@@ -292,7 +288,7 @@ class Schedule{
 		}
 	}
 	
-	public ArrayList<ArrayList<Integer>> getStudentList(){
+	public List<List<Integer>> getStudentList(){
 		return studentsSchedule;
 	}
 	
@@ -301,79 +297,76 @@ class Schedule{
 	}
 	
 	//generates an arraylist of all the modules
-	public ArrayList<Integer> generateModules(ArrayList<Integer> moduleList){
+	public List<Integer> generateModules(List<Integer> moduleList){
 		for(int i=1; i< modules+1; i++){
 			moduleList.add(i);	
 		}	
-		System.out.println("Size: "+ moduleList.size());
+		//System.out.println("Size: "+ moduleList.size());
 		return moduleList;
 	}
 	
+	//This method, for each generation, orders a list of Ordering by cost,
+	//and cuts it so that you replace the worst 3rd or orderings with the best 3rd.
+	//The ordernumbers are then changed to be in chronilogical order
+	//Then, for each popuation, it selects a random number between 1-100 and selects either
+	// crossover,mutaion or reporoduction depending on user input percentages
+	//the ordering is then saved and added to a generation and the gneration is added to a list of generations
 	public void selection(){
-		//shuffle();
-		
-		listOfGenerations=new ArrayList<Generation>();
-		for(int c=0;c<generations;c++){
-			populationOrders=shuffle();
-			/*for(int i=0;i<populationOrders.size()-1;i++){
+		gen=new ArrayList<Generation>();
+		for(int c=0; c< generations; c++){
+			selectionPopulation=population/3;
+			
+			populationOrders= populationOrders.stream()
+				.sorted(Comparator.comparing(o->o.getCost()))
+				.collect(Collectors.toList());
+			   
+			for(int j=0;j<selectionPopulation;j++){
+				temp=populationOrders.get(j);
+				populationOrders.set((populationOrders.size()-selectionPopulation+j),temp);
+			}
+			
+			for(int i=0;i<populationOrders.size();i++){
+				populationOrders.get(i).setOrderNum(i+1);
+			}
+			
+			for(int i=0;i<populationOrders.size()-1;i++){
 				int index= 1 + (int)(Math.random() * 100); 
 				temp=populationOrders.get(i);
 				if(index<=mutation){
-					System.out.println("Mutation");
-					mutation(temp);
+					mutation(populationOrders.get(i));
 				}
 				else if(index >mutation && index <= mutation + crossover){
 					int x=i+1;
 					temp2=populationOrders.get(x);
-					crossoverList=new ArrayList();
+					crossoverList=new ArrayList<Ordering>();
 					crossoverList.add(temp);
 					crossoverList.add(temp2);
 					crossoverList=crossover(crossoverList);
 					populationOrders.set(i, crossoverList.get(0));
 					populationOrders.set(x, crossoverList.get(1));
-					System.out.println("Crossover");
 					i++;
 				}
-				else
-					System.out.println("Reproduction");
-			}*/
+				
+			}	
 			Generation g=new Generation();
 			g.setList(populationOrders);
 			g.generateBestOrdering();
-			listOfGenerations.add(g);
+			gen.add(g);
 		}
-		print();	
+		print("AI17.txt");
 	}
-	
-	public List<Ordering> shuffle(){
-		selectionPopulation=population/3;
-		System.out.println("shuffle");
-		populationOrders= populationOrders.stream()
-			.sorted(Comparator.comparing(o->o.getCost()))
-			.collect(Collectors.toList());
-		
-		for(int j=0;j<selectionPopulation;j++){
-			populationOrders.remove(populationOrders.size()-1);
-		}
-		for(int i=0;i<selectionPopulation;i++){
-			populationOrders.add(populationOrders.get(i));
-		}
-		/*for(int j=0;j<selectionPopulation;j++){
-			populationOrders.remove(j*2);
-			temp=populationOrders.get(j);
-			populationOrders.add(temp);
-			temp2=temp=populationOrders.get(j);
-		}*/
-		return populationOrders;
-	}
-	
+
+	//The crossover function takes a list of Ordering that will contain 2 Ordering objects.
+	//It creates a random cutting point in which t0 cut the 2D arrays from each Ordering in the list.
+	//Arrays are created in which to pass these now seperated 2D arrays.
+	//Depending on if the cutting point reaches past the first row of th 2D array the swapValues method is called with an int parameter.
+	//Once swap values is complete, elements in the 2D array have been swapped with the other and we now call the getDoubles function to 
+	//check for doubles in each ordering and pass them to a list.
+	//The function swapDoubles is now called to swap doubles if any were found and the fitness is then recaculated for each ordering
 	public List<Ordering> crossover(List<Ordering> crossoverList){
 		Ordering order1=crossoverList.get(0);
 		Ordering order2=crossoverList.get(1);
-		//System.out.println("Crossover:"+ order1.getOrderNum()+"   "+ order2.getOrderNum());
 		cp=(int)(Math.random() * ((2*d)-4)) + 2; 
-		//cp=5;
-		//2D arrays
 		ord1=order1.getOrdering();
 		ord2=order2.getOrdering();
 		
@@ -382,37 +375,33 @@ class Schedule{
 		ord1_2= new int[(2*d)-(cp)];
 		ord2_1= new int[cp];
 		ord2_2= new int[(2*d)-(cp)];
-		//
-		System.out.println(cp);
+		
 		
 		if(cp<ord1[0].length){
-			//System.out.println("Small cp");
 			swapValues(0);
 		}
 		else if(cp>ord1[0].length){
-			//System.out.println("Big cp");
 			swapValues(1);
 		}
 		dup1=new ArrayList<Integer>();
 		dup2=new ArrayList<Integer>();
-		/*duplicates=new HashMap<Integer,Integer>();
-		duplicates2=new HashMap<Integer,Integer>();
-		duplicates=getDoubles(duplicates,ord1);
-		duplicates2=getDoubles(duplicates2,ord2);*/
-		dup1=getDoubles(dup1,ord1);
-		dup2=getDoubles(dup2,ord2);
+		dup1=getDoubles(dup1,ord1,order1.getOrderNum());
+		dup2=getDoubles(dup2,ord2,order2.getOrderNum());
 		swapDoubles();
 		
 		order1.setOrdering(ord1);
 		order2.setOrdering(ord2);
 		order1.generateFitness();
 		order2.generateFitness();
-		crossoverList2=new ArrayList();
+		crossoverList2=new ArrayList<Ordering>();
 		crossoverList2.add(order1);
 		crossoverList2.add(order2);
 		return crossoverList2;
 	}
 	
+	//The swap values function swaps the values from one 2D array to another depending in the cutting point location.
+	//It loops through each ordering and replaces the values
+	//If the cutting point runs to the second row you perform the same operation but swap the orderings afterwards to account for this
 	public void swapValues(int x){
 		if(x==1){
 			for(int i=0;i<ord1_2.length;i++){
@@ -438,35 +427,38 @@ class Schedule{
 			}
 		}
 	}
-	
-	public List<Integer> getDoubles(List<Integer> dup, int[][] ord){
+
+	//This function checks for duplicates in a 2D array
+	//It first checks by row if any duplicates are in the same row and if so adds the row and column as ints to a list.
+	//It then checks if any of the values in row1 appear in row 2 and if so adds the row and column as ints to a list.
+	//This list of duplicates is then returned.
+	public List<Integer> getDoubles(List<Integer> dup, int[][] ord, int x){
 		for(int j=0;j<ord[0].length;j++){
 			for(int k=j+1;k<ord[1].length;k++){
 				if(ord[0][j]==ord[0][k]&&(!(j==k))){
 					dup.add(0);
 					dup.add(k);
-					//System.out.println("Match row 1  : "+ord[0][j]+"	"+ord[0][k]+ " "+k+" "+j);
 				}
 				else if(ord[1][j]==ord[1][k]&&(!(j==k))){
 					dup.add(1);
 					dup.add(k);
-					//System.out.println("Match row 2  : "+ord[1][j]+"	"+ord[1][k]+ " "+k+" "+j);
 				}
-				else if(ord[0][j]==ord[1][k]){
+			}
+		}
+		for(int i=0;i<ord[0].length;i++){
+			for(int c=0;c<ord[1].length;c++){
+				if(ord[0][i]==ord[1][c]){
 					dup.add(1);
-					dup.add(k);
-					//System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
-				}
-				else if(ord[1][j]==ord[0][k]){
-					dup.add(0);
-					dup.add(k);
-					//System.out.println("Match row 3  : "+ord[0][j]+"	"+ord[1][k]+ " "+k+" "+j);
+					dup.add(c);
 				}
 			}
 		}
 		return dup;
 	}
 	
+	//This function swaps the duplicates found in the previous function.
+	//You can assume that there will be the same amount of duplicates in ordering 1 as ordering 2.
+	//It loops through the size of the dupliactes list while incrementing by 2 to get the row and column and swaps the corresponding values.
 	public void swapDoubles(){
 		if(dup1.size()==dup2.size()){
 			for(int i=0;i<dup1.size();i=i+2){ 
@@ -479,17 +471,16 @@ class Schedule{
 				ord2[row2][col2]=temp;
 			}
 		}
-		else{
-			//System.out.println("God damn "+ dup1.size()+" "+dup2.size());
-		}
 	}
 	
+	//The mutation function swaps random values in the 2 orderings.
+	//It random generates a row and column to be swapped and the swaps.
+	//It recalculates the new orderings fitness once the swap has happened.
 	public void mutation(Ordering order){
 		int day1= 0 + (int)(Math.random() * 1); 
 		int day2= 0 + (int)(Math.random() * 1); 
 		int exam1= 0 + (int)(Math.random() * d); 
 		int exam2= 0 + (int)(Math.random() * d); 
-		
 		mutationArray=order.getOrdering();
 		int temp;
 		
@@ -502,7 +493,7 @@ class Schedule{
 	}
 }
 
-
+//An Ordering is contained in Schedule and it has the ordering of exams
 class Ordering{
 		
 	private int ordernum;
@@ -514,15 +505,15 @@ class Ordering{
 	private int cost;
 	private int students;
 	private int modulePerCourse;
-	private ArrayList<ArrayList<Integer>> studentsSchedule;
-	ArrayList<Integer> moduleList;
+	private List<List<Integer>> studentsSchedule;
+	List<Integer> moduleList;
 	
 	Ordering(){
 		
 	}
 	
 	//Ordering constructor that calls the generateOrder function and the generateFitness function.
-	Ordering(int ordernum, int d, int modules,ArrayList<ArrayList<Integer>> studentsSchedule,int students,int modulePerCourse){
+	Ordering(int ordernum, int d, int modules,List<List<Integer>> studentsSchedule,int students,int modulePerCourse){
 		this.ordernum=ordernum;
 		this.d=d;
 		this.modules=modules;
@@ -541,7 +532,7 @@ class Ordering{
 		
 		for(int i=0;i<d;i++){
 			for(int j=0;j<2;j++){
-				index= 0 + (int)(Math.random() * moduleList.size()-1); 
+				index= 0 + (int)(Math.random() * moduleList.size()); 
 				x=moduleList.get(index);
 				ordering[j][i]= x;
 				moduleList.remove(index);
@@ -551,7 +542,7 @@ class Ordering{
 	}
 	
 	//Generates a list of modules
-	public ArrayList<Integer> generateModules(ArrayList<Integer> moduleList){
+	public List<Integer> generateModules(List<Integer> moduleList){
 		for(int i=1; i< modules+1; i++)
 			moduleList.add(i);
 		
@@ -560,6 +551,7 @@ class Ordering{
 	
 	//Generates a fitness value for the object based on the 2D ordering array
 	public void generateFitness(){
+		cost=0;
 		int m1;
 		int m2;
 		ArrayList<Integer> studentsModules=new  ArrayList<Integer>();
@@ -592,12 +584,17 @@ class Ordering{
 		return ordernum;
 	}
 	
+	public void setOrderNum(int ordernum){
+		
+		this.ordernum=ordernum;
+	}
+	
 	public void setOrdering(int [][] ordering){
 		this.ordering=ordering;
 	}
 };
 
-
+//A generation conatins a list of orderings
 class Generation{
 	private List<Ordering> orderings;
 	private Ordering bestOrdering;
@@ -610,12 +607,12 @@ class Generation{
 		orderings.add(x);
 	}
 	
+	//This method stores the best ordering ie the first ordering in a list after you sort by cost
 	public void generateBestOrdering(){
 		orderings= orderings.stream()
 			.sorted(Comparator.comparing(o->o.getCost()))
 			.collect(Collectors.toList());
 		bestOrdering=orderings.get(0);
-		System.out.println("Best ordering"+ bestOrdering.getCost());
 	}
 	
 	public void setList(List<Ordering> list){
@@ -626,10 +623,16 @@ class Generation{
 		return bestOrdering.getCost();
 	}
 	
+	public Ordering getBest(){
+		return bestOrdering;
+	}
+	
 	public List<Ordering> getList(){
 		return orderings;
 	}
 }
+
+
 
 
 
